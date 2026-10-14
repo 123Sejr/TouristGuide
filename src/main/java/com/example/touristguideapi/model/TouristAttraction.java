@@ -8,16 +8,14 @@ public class TouristAttraction {
     private String name;
     private String description;
     private int city_id;
-    private ArrayList<Integer> tags;
-    // en liste af tag_id. I sql'en peger de på tag tabellen, hvor et tag har både id og navn
-    // kunne omskrives til en liste af TagObject? Usikker på hvilke, der er brug for
+    private int tags_id;
 
-    public TouristAttraction(int id, String name, String description, int city_id, ArrayList<Integer> tags) {
+    public TouristAttraction(int id, String name, String description, int city_id, int tags_id) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.city_id = city_id;
-        this.tags = tags;
+        this.tags_id = tags_id;
     }
 
     public String getName() {
@@ -32,8 +30,8 @@ public class TouristAttraction {
         return city_id;
     }
 
-    public ArrayList<Integer> getTags() {
-        return tags;
+    public int getTags() {
+        return tags_id;
     }
 
     public void setName(String name) {
@@ -48,15 +46,15 @@ public class TouristAttraction {
         this.city_id = city_id;
     }
 
-    public void setTags(ArrayList<Integer> tags) {
-        this.tags = tags;
+    public void setTags(int tags_id) {
+        this.tags_id = tags_id;
     }
 
     @Override
     public String toString() {
         return "Name: " + name +
                 "\nDescription: " + description +
-                "\nTags: " + tags +
+                "\nTags: " + tags_id +
                 "\nCity: " + city_id;
     }
 }
