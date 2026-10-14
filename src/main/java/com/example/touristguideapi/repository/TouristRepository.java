@@ -1,6 +1,7 @@
 package com.example.touristguideapi.repository;
 
 import com.example.touristguideapi.model.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -17,6 +18,13 @@ har set beskrivelsen af Controller klassens endpoints nedenfor.
 
 @Repository
 public class TouristRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public TouristRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     // en arrayliste initialiseres med tre attraktioner for at vi har noget at teste ud fra.
     private ArrayList<TouristAttraction> touristAttractions = new ArrayList<>(
             List.of(
