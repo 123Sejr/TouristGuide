@@ -71,7 +71,7 @@ public class TouristController {
         List<String> cityList = service.getCities();
         model.addAttribute("cityList", cityList);
 
-        EnumSet<Tag> tagsList = attraction.getTags_id();
+        TagObject[] tagsList = attraction.getTags();
         model.addAttribute("tagsList", tagsList);
         return "editAttraction";
     }
@@ -85,7 +85,7 @@ public class TouristController {
         model.addAttribute("attraction", attraction);
         service.updateAttraction(attraction.getName(), attraction);
 
-        EnumSet<Tag> tagsList = attraction.getTags_id();
+        TagObject[] tagsList = attraction.getTags();
         model.addAttribute("tagsList", tagsList);
         return "updateAttraction";
     }
@@ -105,7 +105,7 @@ public class TouristController {
     public String getAttractionTags(@PathVariable String name, Model model){
         TouristAttraction attraction = service.findAttractionByName(name);
          model.addAttribute("attraction", attraction);
-         model.addAttribute("taglist", attraction.getTags_id());
+         model.addAttribute("taglist", attraction.getTags());
         return "tags";
     }
 }

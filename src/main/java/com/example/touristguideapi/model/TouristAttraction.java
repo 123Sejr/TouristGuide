@@ -1,21 +1,20 @@
 package com.example.touristguideapi.model;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 
 public class TouristAttraction {
     private int id;
     private String name;
     private String description;
     private int city_id;
-    private int tags_id;
+    private TagObject[] tags;
 
-    public TouristAttraction(int id, String name, String description, int city_id, int tags_id) {
+    public TouristAttraction(int id, String name, String description, int city_id, TagObject[] tags) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.city_id = city_id;
-        this.tags_id = tags_id;
+        this.tags = tags;
     }
 
     public String getName() {
@@ -30,8 +29,8 @@ public class TouristAttraction {
         return city_id;
     }
 
-    public int getTags() {
-        return tags_id;
+    public TagObject[] getTags() {
+        return tags;
     }
 
     public void setName(String name) {
@@ -46,15 +45,15 @@ public class TouristAttraction {
         this.city_id = city_id;
     }
 
-    public void setTags(int tags_id) {
-        this.tags_id = tags_id;
+    public void setTags(TagObject[] tags) {
+        this.tags = tags;
     }
 
     @Override
     public String toString() {
         return "Name: " + name +
                 "\nDescription: " + description +
-                "\nTags: " + tags_id +
+                "\nTags: " + tags +
                 "\nCity: " + city_id;
     }
 }

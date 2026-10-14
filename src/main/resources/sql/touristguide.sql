@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS tourist_attraction
     name          VARCHAR(50),
     description   VARCHAR(300),
     city_id       INT,
-    tag_id        INT,
+#     tag_id        INT,
     FOREIGN KEY (city_id)
-        REFERENCES city (city_id),
-    FOREIGN KEY (tag_id)
-        REFERENCES tag (tag_id)
+        REFERENCES city (city_id)
+#     FOREIGN KEY (tag_id)
+#         REFERENCES tag (tag_id)
 );
 
 DROP TABLE IF EXISTS attraction_tags;
