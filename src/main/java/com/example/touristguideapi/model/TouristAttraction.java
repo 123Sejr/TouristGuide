@@ -13,6 +13,11 @@ public class TouristAttraction {
 
     }
 
+    public TouristAttraction(String name, String description, String city) {
+        this.name = name;
+        this.description = description;
+        this.city = city;
+    }
 
     public TouristAttraction(String name, String description, String city, EnumSet<Tag> tags) {
         this.name = name;
