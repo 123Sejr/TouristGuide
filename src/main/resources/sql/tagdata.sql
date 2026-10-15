@@ -11,4 +11,4 @@ VALUES (1, 'ARCHITECTURE'),
        (8, 'NATURE'),
        (9, 'ZOO');
 
-# Er denne fil nødvendig når vi bruger enum?
+# Er denne fil nødvendig når vi bruger enum? Eller skal vi ikke bruge enum?
