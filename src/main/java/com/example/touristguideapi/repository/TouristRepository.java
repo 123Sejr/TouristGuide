@@ -38,7 +38,7 @@ public class TouristRepository {
         return touristAttractions;
     }
 
-    //Henter listen af byer ved hjælp af query() og CityRowMapper
+    //Henter listen af byer ved hjælp af query(), SQL og CityRowMapper
     public List<City> getCities() {
         return jdbcTemplate.query("SELECT * FROM city", new CityRowMapper());
     }
