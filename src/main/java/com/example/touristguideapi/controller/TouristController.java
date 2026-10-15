@@ -68,7 +68,7 @@ public class TouristController {
         TouristAttraction attraction = service.findAttractionByName(name);
         model.addAttribute("attraction", attraction);
 
-        List<String> cityList = service.getCities();
+        List<City> cityList = service.getCities();
         model.addAttribute("cityList", cityList);
 
         EnumSet<Tag> tagsList = attraction.getTags();
