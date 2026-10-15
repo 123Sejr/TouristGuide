@@ -4,10 +4,10 @@ import java.util.EnumSet;
 
 public class TagObject {
     private int tag_id;
-    private EnumSet<Tag> tag;
+    private Tag tag;
 
 
-    public TagObject (int tag_id, EnumSet<Tag> tag) {
+    public TagObject (int tag_id, Tag tag) {
         this.tag_id = tag_id;
         this.tag = tag;
     }
@@ -26,7 +26,7 @@ public class TagObject {
         this.tag_id = tag_id;
     }
 
-    public void setTag(EnumSet<Tag> tag) {
+    public void setTag(Tag tag) {
         this.tag = tag;
     }
 
