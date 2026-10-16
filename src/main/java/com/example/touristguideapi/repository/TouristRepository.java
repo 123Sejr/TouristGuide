@@ -27,11 +27,7 @@ public class TouristRepository {
 
     // en arrayliste initialiseres med tre attraktioner for at vi har noget at teste ud fra.
     private ArrayList<TouristAttraction> touristAttractions = new ArrayList<>(
-            List.of(
-                    new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 10, new ArrayList<>(List.of(3, 6))),
-                    new TouristAttraction(2, "Kronborg", "Slot i Helsingør, hvor Hamlet foregår.", 5, new ArrayList<>(List.of(2, 4, 5))),
-                    new TouristAttraction(3, "Rundetårn", "Astronomisk tårn fra Christian IVs tid.", 10, new ArrayList<>(List.of(1, 5)))
-            )
+
     );
 
     public ArrayList<TouristAttraction> getAllAttractions() {

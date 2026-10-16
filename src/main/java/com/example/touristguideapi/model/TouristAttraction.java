@@ -7,9 +7,9 @@ public class TouristAttraction {
     private String name;
     private String description;
     private int city_id;
-    private TagObject[] tags;
+    private String[] tags;
 
-    public TouristAttraction(int id, String name, String description, int city_id, TagObject[] tags) {
+    public TouristAttraction(int id, String name, String description, int city_id, String[] tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,7 +29,7 @@ public class TouristAttraction {
         return city_id;
     }
 
-    public TagObject[] getTags() {
+    public String[] getTags() {
         return tags;
     }
 
@@ -45,7 +45,7 @@ public class TouristAttraction {
         this.city_id = city_id;
     }
 
-    public void setTags(TagObject[] tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 

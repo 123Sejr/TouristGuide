@@ -71,7 +71,7 @@ public class TouristController {
         List<String> cityList = service.getCities();
         model.addAttribute("cityList", cityList);
 
-        TagObject[] tagsList = attraction.getTags();
+        String[] tagsList = attraction.getTags();
         model.addAttribute("tagsList", tagsList);
         return "editAttraction";
     }
@@ -85,7 +85,7 @@ public class TouristController {
         model.addAttribute("attraction", attraction);
         service.updateAttraction(attraction.getName(), attraction);
 
-        TagObject[] tagsList = attraction.getTags();
+        String[] tagsList = attraction.getTags();
         model.addAttribute("tagsList", tagsList);
         return "updateAttraction";
     }
