@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS tag;
 
 CREATE TABLE IF NOT EXISTS tag
 (
-    tag_id   INT PRIMARY KEY,
+    tag_id   INT AUTO_INCREMENT PRIMARY KEY,
     tag_name VARCHAR(50) NOT NULL
 );
 
