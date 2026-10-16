@@ -94,7 +94,7 @@ class TouristControllerTest {
         assertEquals("Den lille havfrue", captured.getName());
         assertEquals("Figur fra H.C.Andersens eventyr.", captured.getDescription());
         assertEquals("København", captured.getCity());
-        assertEquals(EnumSet.of(Tag.ART), captured.getTags());
+        assertEquals(EnumSet.of(Tag.ART), captured.getTags_id());
     }
 
     /*Her skal der testes at en GET request til /{name}/edit endpointet returnerer en

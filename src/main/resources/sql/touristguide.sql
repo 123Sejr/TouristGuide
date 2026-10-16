@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS city;
 
 CREATE TABLE IF NOT EXISTS city
 (
-    city_id      INT PRIMARY KEY,
+    city_id      INT AUTO_INCREMENT PRIMARY KEY,
     city_name     VARCHAR(50)
 );
 
