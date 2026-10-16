@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS tag;
 
 CREATE TABLE IF NOT EXISTS tag
 (
-    tag_id   int PRIMARY KEY,
-    tag_name ENUM('ARCHITECTURE', 'ART', 'AMUSEMENT_PARK', 'CASTLE', 'HISTORY', 'KID_FRIENDLY', 'MUSEUM', 'NATURE', 'ZOO') NOT NULL
+    tag_id   INT PRIMARY KEY,
+    tag_name VARCHAR(50) NOT NULL
 );
 
 DROP TABLE IF EXISTS city;
@@ -26,11 +26,8 @@ CREATE TABLE IF NOT EXISTS tourist_attraction
     name          VARCHAR(50),
     description   VARCHAR(300),
     city_id       INT,
-    tag_id        INT,
     FOREIGN KEY (city_id)
-        REFERENCES city (city_id),
-    FOREIGN KEY (tag_id)
-        REFERENCES tag (tag_id)
+        REFERENCES city (city_id)
 );
 
 DROP TABLE IF EXISTS attraction_tags;
