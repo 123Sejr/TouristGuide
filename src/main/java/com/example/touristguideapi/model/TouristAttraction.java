@@ -1,7 +1,5 @@
 package com.example.touristguideapi.model;
 
-import java.util.ArrayList;
-
 public class TouristAttraction {
     private int id;
     private String name;
@@ -15,6 +13,10 @@ public class TouristAttraction {
         this.description = description;
         this.city_id = city_id;
         this.tags = tags;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -31,6 +33,10 @@ public class TouristAttraction {
 
     public String[] getTags() {
         return tags;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
