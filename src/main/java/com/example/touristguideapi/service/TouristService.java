@@ -3,27 +3,28 @@ package com.example.touristguideapi.service;
 import com.example.touristguideapi.model.TouristAttraction;
 import com.example.touristguideapi.repository.TouristRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TouristService {
     //Opretter et objekt af TouristRepository så vi kan bruge dens metoder.
-    private TouristRepository repository;
+    private final TouristRepository repository;
 
     public TouristService(TouristRepository repository) {
         this.repository = repository;
     }
 
-    public ArrayList<TouristAttraction> getTouristAttractions() {
+
+    public List<TouristAttraction> getTouristAttractions() {
         return repository.getAllAttractions();
     }
 
+
+
     // Kalder på en metode i repository, der returnerer en attraktion baseret på navn.
     // Kaldes selv fra controller.
-    public TouristAttraction findAttractionByName(String name) {
-        return repository.findAttractionByName(name);
+    public TouristAttraction findAttractionById(int id ) {
+        return repository.findAttractionById(id);
     }
 
     // Tager imod en attraction fra controlleren og sender det videre til repository
