@@ -1,24 +1,22 @@
 package com.example.touristguideapi.model;
 
-import java.util.EnumSet;
-
 public class TouristAttraction {
+    private int id;
     private String name;
     private String description;
-    private String city;
-    private EnumSet<Tag> tags;
-    //private List<Tags> tags;
+    private int city_id;
+    private String[] tags;
 
-    public TouristAttraction() {
-
-    }
-
-
-    public TouristAttraction(String name, String description, String city, EnumSet<Tag> tags) {
+    public TouristAttraction(int id, String name, String description, int city_id, String[] tags) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.city_id = city_id;
         this.tags = tags;
-        this.city = city;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -29,12 +27,16 @@ public class TouristAttraction {
         return description;
     }
 
-    public String getCity() {
-        return city;
+    public int getCityID() {
+        return city_id;
     }
 
-    public EnumSet<Tag> getTags() {
+    public String[] getTags() {
         return tags;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -45,11 +47,11 @@ public class TouristAttraction {
         this.description = description;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCityID(int city_id) {
+        this.city_id = city_id;
     }
 
-    public void setTags(EnumSet<Tag> tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 
@@ -58,6 +60,6 @@ public class TouristAttraction {
         return "Name: " + name +
                 "\nDescription: " + description +
                 "\nTags: " + tags +
-                "\nCity: " + city;
+                "\nCity: " + city_id;
     }
 }
