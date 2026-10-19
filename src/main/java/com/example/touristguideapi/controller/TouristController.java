@@ -23,21 +23,24 @@ public class TouristController {
 
     }
 
+
     // GET-endpoint, der henter alle turistattraktioner fra service layer.
     // Returnerer html-siden attractionList.
     @GetMapping()
     public String getTouristAttractions(Model model) {
-        ArrayList<TouristAttraction> attractions = service.getTouristAttractions();
+        List<TouristAttraction> attractions = service.getTouristAttractions();
         model.addAttribute("attractionList", attractions);
         return "attractionList";
     }
 
+
+
     // GET-endpoint, der viser en enkelt turistattraktion på sin egen HTML side.
     // Attraktionen lægges i Model, så Thymeleaf kan vise dens data.
     // Findes den ikke, sendes brugeren tilbage til oversigten.
-    @GetMapping("/{name}")
-    public String getName(@PathVariable String name, Model model) {
-        TouristAttraction attraction = service.findAttractionByName(name);
+    @GetMapping("/{id}")
+    public String getName(@PathVariable int id, Model model) {
+        TouristAttraction attraction = service.findAttractionById(id);
 
         if (attraction == null) {
             return "redirect:/attractions";

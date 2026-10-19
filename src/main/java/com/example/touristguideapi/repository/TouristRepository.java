@@ -4,9 +4,7 @@ import com.example.touristguideapi.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -31,13 +29,14 @@ public class TouristRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // en arrayliste initialiseres med tre attraktioner for at vi har noget at teste ud fra.
-    private ArrayList<TouristAttraction> touristAttractions = new ArrayList<>(
+    public TouristAttraction findAttractionById(int id) {
+        String sql = "SELECT * FROM tourist_attraction WHERE attraction_id = ?";
 
-    );
-
-    public ArrayList<TouristAttraction> getAllAttractions() {
-        return touristAttractions;
+        return jdbcTemplate.queryForObject(
+                sql,
+                new TouristAttractionRowMapper(),
+                id
+        );
     }
 
     //Henter listen af byer ved hjælp af query(), SQL og CityRowMapper
@@ -46,14 +45,13 @@ public class TouristRepository {
     }
 
 
-    // Tager et navn på en attraction og returnerer hele objektet, hvis det kan findes. Kaldes fra service.
-    public TouristAttraction findAttractionByName(String name) {
-        for (TouristAttraction attraction : touristAttractions) {
-            if (Objects.equals(attraction.getName(), name)) {
-                return attraction;
-            }
-        }
-        return null;
+    public List<TouristAttraction> getAllAttractions() {
+        String sql = "SELECT * FROM tourist_attraction";
+
+        return jdbcTemplate.query(
+                sql,
+                new TouristAttractionRowMapper()
+        );
     }
 
     // Gemmer en attraktion og dens tags i databasen. Kaldes fra service.
@@ -82,21 +80,21 @@ public class TouristRepository {
 
         // Gem attractions tags
 
-        // Først skal vi have attraktionens tags (Skal måske bruge keyholder i stedet)
-        String sqlID = "SELECT attraction_id FROM tourist_attraction WHERE name = ?"
-                ;
-        // vi gemmer id'et i en int
-        int attractionID = jdbcTemplate.update(sqlID, attraction.getName());
+        // Først skal vi have attraktionens id (Skal måske bruge keyholder i stedet)
+        int attractionID = jdbcTemplate.update(
+                "SELECT attraction_id FROM tourist_attraction WHERE name = ?", attraction.getName()
+        );
 
         // vi vil også gerne have id for hvert tag, der skal gemmes
-        // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
+
         if (attraction.getTags() != null) {
             for (String tag : attraction.getTags()) {
-                String sqlTagID = "SELECT tag_id FROM tag WHERE tag_name = ?";
 
-                // id gammes i en int (igen, vi skal måske bruge keyholder i stedet)
-                int tagID = jdbcTemplate.update(sqlTagID, tag);
+                // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
+                // det gemms i en int (igen, måske skal keyholder bruges i stedet
+                int tagID = jdbcTemplate.update("SELECT tag_id FROM tag WHERE tag_name = ?", tag);
 
+                // de to id'er bruges til at indsætte data om tags
                 String sqlTags = """
                         INSERT INTO attraction_tags (attraction_id, tag_id)
                         VALUES (?, ?)
@@ -116,8 +114,15 @@ public class TouristRepository {
         }
     }
 
-    public void removeAttraction(String name) {
-        TouristAttraction attraction = findAttractionByName(name);
+//    public void removeAttraction(String name) {
+//        TouristAttraction attraction = findAttractionByName(name);
+//
+//        if (attraction != null) {
+//            touristAttractions.remove(attraction);
+//        } else {
+//            System.out.println("No attraction with that name.");
+//        }
+//    }
 
         if (attraction != null) {
             touristAttractions.remove(attraction);
