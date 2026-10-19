@@ -5,8 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,15 +59,9 @@ public class TouristRepository {
     // Gemmer en attraktion og dens tags i databasen. Kaldes fra service.
     @Transactional
     public void addAttraction(TouristAttraction attraction) {
-        // Find byens id.
-        String citySql = "SELECT city_id FROM city WHERE city_name = ?";
-
-        Integer cityId = jdbcTemplate.queryForObject(
-                citySql, Integer.class, attraction.getCity()
-        );
 
         // Gem attraktionen.
-        String sql = """
+        String sqlAttraction = """
             INSERT INTO tourist_attraction (name, description, city_id)
             VALUES (?, ?, ?)
             """;
@@ -78,38 +70,48 @@ public class TouristRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                    sql, Statement.RETURN_GENERATED_KEYS
+                    sqlAttraction, Statement.RETURN_GENERATED_KEYS
             );
+
+            // sql parametrene identificeres med data returneret fra java metoderne
             ps.setString(1, attraction.getName());
             ps.setString(2, attraction.getDescription());
-            ps.setInt(3, cityId);
+            ps.setInt(3, attraction.getCityID());
             return ps;
         }, keyHolder);
 
-        // Hent attraktionens nye id.
-        int attractionId = keyHolder.getKey() != null
-                ? keyHolder.getKey().intValue()
-                : -1;
+        // Gem attractions tags
 
-        if (attractionId == -1) {
-            throw new RuntimeException("Kunne ikke hente attraktionens id");
-        }
+        // Først skal vi have attraktionens tags (Skal måske bruge keyholder i stedet)
+        String sqlID = "SELECT attraction_id FROM tourist_attraction WHERE name = ?"
+                ;
+        // vi gemmer id'et i en int
+        int attractionID = jdbcTemplate.update(sqlID, attraction.getName());
 
-        // Gem forbindelserne mellem attraktionen og dens tags.
+        // vi vil også gerne have id for hvert tag, der skal gemmes
+        // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
         if (attraction.getTags() != null) {
-            for (Tag tag : attraction.getTags()) {
-                String tagSql = "SELECT tag_id FROM tag WHERE tag_name = ?";
+            for (String tag : attraction.getTags()) {
+                String sqlTagID = "SELECT tag_id FROM tag WHERE tag_name = ?";
 
-                Integer tagId = jdbcTemplate.queryForObject(
-                        tagSql, Integer.class, tag.name()
-                );
+                // id gammes i en int (igen, vi skal måske bruge keyholder i stedet)
+                int tagID = jdbcTemplate.update(sqlTagID, tag);
 
-                String connectionSql = """
-                    INSERT INTO attraction_tags (attraction_id, tag_id)
-                    VALUES (?, ?)
-                    """;
+                String sqlTags = """
+                        INSERT INTO attraction_tags (attraction_id, tag_id)
+                        VALUES (?, ?)
+                        """;
 
-                jdbcTemplate.update(connectionSql, attractionId, tagId);
+                jdbcTemplate.update(connection -> {
+                    PreparedStatement ps = connection.prepareStatement(
+                            sqlTags, Statement.RETURN_GENERATED_KEYS
+                    );
+
+                    // sql parametrene identificeres med de gemte id'er
+                    ps.setInt(1, attractionID);
+                    ps.setInt(2, tagID);
+                    return ps;
+                }, keyHolder);
             }
         }
     }
@@ -134,3 +136,8 @@ public class TouristRepository {
         touristAttractions.set(touristAttractions.indexOf(attraction), updatedAttraction);
     }
 }
+/*
+public void updateAttraction(int id, TouristAttraction updatedAttraction) {
+
+}
+*/
