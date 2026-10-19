@@ -124,17 +124,17 @@ public class TouristRepository {
             System.out.println("No attraction with that id.");
         }
 
-        }
+    }
 
     public void updateAttraction(int id, TouristAttraction updatedAttraction) {
 
         String sqlUpdate = """
-                              UPDATE tourist_attraction
-                              SET name = ?,
-                              description = ?,
-                              city_id = ?
-                              WHERE attraction_id = ?
-                              """;
+                UPDATE tourist_attraction
+                SET name = ?,
+                description = ?,
+                city_id = ?
+                WHERE attraction_id = ?
+                """;
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sqlUpdate);
 
@@ -146,5 +146,4 @@ public class TouristRepository {
             return ps;
         });
     }
-
 }
