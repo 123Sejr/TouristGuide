@@ -42,9 +42,11 @@ public class TouristRepository {
         return touristAttractions;
     }
 
-    public List<String> getCities() {
-        return Arrays.asList("København", "Helsingør", "Roskilde");
+    //Henter listen af byer ved hjælp af query(), SQL og CityRowMapper
+    public List<City> getCities() {
+        return jdbcTemplate.query("SELECT * FROM city", new CityRowMapper());
     }
+
 
     // Tager et navn på en attraction og returnerer hele objektet, hvis det kan findes. Kaldes fra service.
     public TouristAttraction findAttractionByName(String name) {
