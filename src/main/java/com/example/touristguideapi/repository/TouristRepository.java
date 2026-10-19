@@ -9,6 +9,14 @@ import java.util.EnumSet;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
 /*
 Klassen skal desuden indeholde CRUD metoder, der arbejder på ovenstående ArrayList.
 
@@ -48,9 +56,60 @@ public class TouristRepository {
         return null;
     }
 
-    // Tilføjer et attraktion objekt til arraylisten. Kaldes fra service.
+    // Gemmer en attraktion og dens tags i databasen. Kaldes fra service.
+    @Transactional
     public void addAttraction(TouristAttraction attraction) {
-        touristAttractions.add(attraction);
+        // Find byens id.
+        String citySql = "SELECT city_id FROM city WHERE city_name = ?";
+
+        Integer cityId = jdbcTemplate.queryForObject(
+                citySql, Integer.class, attraction.getCity()
+        );
+
+        // Gem attraktionen.
+        String sql = """
+            INSERT INTO tourist_attraction (name, description, city_id)
+            VALUES (?, ?, ?)
+            """;
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    sql, Statement.RETURN_GENERATED_KEYS
+            );
+            ps.setString(1, attraction.getName());
+            ps.setString(2, attraction.getDescription());
+            ps.setInt(3, cityId);
+            return ps;
+        }, keyHolder);
+
+        // Hent attraktionens nye id.
+        int attractionId = keyHolder.getKey() != null
+                ? keyHolder.getKey().intValue()
+                : -1;
+
+        if (attractionId == -1) {
+            throw new RuntimeException("Kunne ikke hente attraktionens id");
+        }
+
+        // Gem forbindelserne mellem attraktionen og dens tags.
+        if (attraction.getTags() != null) {
+            for (Tag tag : attraction.getTags()) {
+                String tagSql = "SELECT tag_id FROM tag WHERE tag_name = ?";
+
+                Integer tagId = jdbcTemplate.queryForObject(
+                        tagSql, Integer.class, tag.name()
+                );
+
+                String connectionSql = """
+                    INSERT INTO attraction_tags (attraction_id, tag_id)
+                    VALUES (?, ?)
+                    """;
+
+                jdbcTemplate.update(connectionSql, attractionId, tagId);
+            }
+        }
     }
 
     public void removeAttraction(String name) {
