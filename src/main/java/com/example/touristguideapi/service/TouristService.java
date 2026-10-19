@@ -37,8 +37,8 @@ public class TouristService {
     }
 
     // Tager imod et navn fra controlleren og sender det videre til en metode i repository
-    public void removeAttraction(String name) {
-        repository.removeAttraction(name);
+    public void removeAttraction(int id) {
+        repository.removeAttraction(id);
     }
 
     public List<String> getCities() {

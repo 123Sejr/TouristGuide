@@ -138,9 +138,9 @@ class TouristControllerTest {
     @Test
     void removeAttraction() throws Exception {
         TouristAttraction attraction = new TouristAttraction("Tivoli", "Forlystelsespark i indre København", "København", EnumSet.of(Tag.AMUSEMENT_PARK, Tag.KID_FRIENDLY));
-        when(touristService.findAttractionByName(attraction.getName())).thenReturn(attraction);
+        when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
-        touristService.removeAttraction(attraction.getName());
+        touristService.removeAttraction(attraction.getId());
 
         mockMvc.perform(post("/attractions/Tivoli/delete"))
                 .andExpect(status().isOk())

@@ -58,13 +58,11 @@ public class TouristRepository {
     }
 
     //Skal SQL'en bruge navnet eller id på attraktionen?
-    public void removeAttraction(String name) {
-        TouristAttraction attraction = findAttractionByName(name);
-        //int id = attraction.getId();
+    public void removeAttraction(int id) {
+        TouristAttraction attraction = findAttractionById(id);
 
         if (attraction != null) {
-            //jdbcTemplate.update("delete from tourist_attraction where attraction_id = ?", id);
-            jdbcTemplate.update("delete from tourist_attraction where name = ?", name);
+            jdbcTemplate.update("delete from tourist_attraction where attraction_id = ?", id);
         } else {
             System.out.println("No attraction with that name.");
         }
