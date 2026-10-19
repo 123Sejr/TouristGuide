@@ -60,9 +60,9 @@ public class TouristRepository {
 
         // Gem attraktionen.
         String sqlAttraction = """
-                INSERT INTO tourist_attraction (name, description, city_id)
-                VALUES (?, ?, ?)
-                """;
+            INSERT INTO tourist_attraction (name, description, city_id)
+            VALUES (?, ?, ?)
+            """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -109,7 +109,7 @@ public class TouristRepository {
                     ps.setInt(1, attractionID);
                     ps.setInt(2, tagID);
                     return ps;
-                }, keyHolder);
+                });
             }
         }
     }
@@ -123,6 +123,28 @@ public class TouristRepository {
         } else {
             System.out.println("No attraction with that id.");
         }
+
+        }
+
+    public void updateAttraction(int id, TouristAttraction updatedAttraction) {
+
+        String sqlUpdate = """
+                              UPDATE tourist_attraction
+                              SET name = ?,
+                              description = ?,
+                              city_id = ?
+                              WHERE attraction_id = ?
+                              """;
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sqlUpdate);
+
+            // sql parametrene identificeres med de gemte id'er
+            ps.setString(1, updatedAttraction.getName());
+            ps.setString(2,updatedAttraction.getDescription());
+            ps.setInt(3, updatedAttraction.getCityID());
+            ps.setInt(4, id);
+            return ps;
+        });
     }
 
 }
