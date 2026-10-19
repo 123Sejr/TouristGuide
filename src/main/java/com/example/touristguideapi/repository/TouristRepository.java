@@ -73,3 +73,37 @@ public class TouristRepository {
         touristAttractions.set(touristAttractions.indexOf(attraction), updatedAttraction);
     }
 }
+
+/*
+string sql = "UPDATE tourist_attractions
+name = ?
+description = ?
+city_id = ?
+WHERE id = ?"
+
+        jdbcTemplate.update(connection -> {
+PreparedStatement ps = connection.prepareStatement(
+        sql, Statement.RETURN_GENERATED_KEYS
+);
+            ps.setString(1, updatedAttraction.getName());
+        ps.setString(2, updatedAttraction.getDescription());
+        ps.setInt(3, upddatedAttraction.getCityID());
+        return ps;
+        }, keyHolder);
+        }
+
+        if (updatedAttraction.getTags != null){
+        for (tag tag : tags)
+        }
+
+
+        jdbcTemplate.update(connection -> {
+PreparedStatement ps = connection.prepareStatement(
+        sql, Statement.RETURN_GENERATED_KEYS
+);
+            ps.setString(1, updatedAttraction.getName());
+        ps.setString(2, updatedAttraction.getDescription());
+        ps.setInt(3, upddatedAttraction.getCityID());
+        return ps;
+        }, keyHolder);
+        */
