@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 @Controller
@@ -66,9 +64,9 @@ public class TouristController {
     /*GET-endpoint, der henter information om en specifik attraktion fra service layer og
     * returnere html-siden editAttraction, der giver brugeren lov til at ændre på attraktionens oplysninger,
     * bortset fra dens navn.*/
-    @GetMapping("{name}/edit")
-    public String editAttraction(Model model, @PathVariable String name) {
-        TouristAttraction attraction = service.findAttractionByName(name);
+    @GetMapping("{id}/edit")
+    public String editAttraction(Model model, @PathVariable int id) {
+        TouristAttraction attraction = service.findAttractionById(id);
         model.addAttribute("attraction", attraction);
 
         List<City> cityList = service.getCities();
@@ -104,9 +102,9 @@ public class TouristController {
         return "deleted";
     }
 
-    @GetMapping("/{name}/tags")
-    public String getAttractionTags(@PathVariable String name, Model model){
-        TouristAttraction attraction = service.findAttractionByName(name);
+    @GetMapping("/{id}/tags")
+    public String getAttractionTags(@PathVariable int id, Model model){
+        TouristAttraction attraction = service.findAttractionById(id);
          model.addAttribute("attraction", attraction);
          model.addAttribute("taglist", attraction.getTags());
         return "tags";

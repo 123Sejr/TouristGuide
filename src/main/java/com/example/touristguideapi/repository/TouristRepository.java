@@ -60,9 +60,9 @@ public class TouristRepository {
 
         // Gem attraktionen.
         String sqlAttraction = """
-            INSERT INTO tourist_attraction (name, description, city_id)
-            VALUES (?, ?, ?)
-            """;
+                INSERT INTO tourist_attraction (name, description, city_id)
+                VALUES (?, ?, ?)
+                """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -93,7 +93,8 @@ public class TouristRepository {
                 // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
                 // det gemms i en int (igen, måske skal keyholder bruges i stedet
                 int tagID = jdbcTemplate.update("SELECT tag_id FROM tag WHERE tag_name = ?", tag);
-// de to id'er bruges til at indsætte data om tags
+
+                // de to id'er bruges til at indsætte data om tags
                 String sqlTags = """
                         INSERT INTO attraction_tags (attraction_id, tag_id)
                         VALUES (?, ?)
@@ -124,9 +125,4 @@ public class TouristRepository {
         }
     }
 
-
-    /*
-    public void updateAttraction(int id, TouristAttraction updatedAttraction) {
-    }
-     */
 }
