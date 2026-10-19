@@ -31,14 +31,15 @@ public class TouristRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // en arrayliste initialiseres med tre attraktioner for at vi har noget at teste ud fra.
-    private ArrayList<TouristAttraction> touristAttractions = new ArrayList<>(
+    public TouristAttraction findAttractionById(int id) {
+        String sql = "SELECT * FROM tourist_attraction WHERE attraction_id = ?";
 
-    );
+        return jdbcTemplate.queryForObject(
+                sql,
+                new TouristAttractionRowMapper(),
+                id
+        );
 
-    public ArrayList<TouristAttraction> getAllAttractions() {
-        return touristAttractions;
-    }
 
     //Henter listen af byer ved hjælp af query(), SQL og CityRowMapper
     public List<City> getCities() {
@@ -46,16 +47,13 @@ public class TouristRepository {
     }
 
 
-    // Tager et navn på en attraction og returnerer hele objektet, hvis det kan findes. Kaldes fra service.
-    public TouristAttraction findAttractionByName(String name) {
-        for (TouristAttraction attraction : touristAttractions) {
-            if (Objects.equals(attraction.getName(), name)) {
-                return attraction;
-            }
-        }
-        return null;
-    }
+    public List<TouristAttraction> getAllAttractions() {
+        String sql = "SELECT * FROM tourist_attraction";
 
+        return jdbcTemplate.query(
+                sql,
+                new TouristAttractionRowMapper()
+        );
     // Gemmer en attraktion og dens tags i databasen. Kaldes fra service.
     @Transactional
     public void addAttraction(TouristAttraction attraction) {
