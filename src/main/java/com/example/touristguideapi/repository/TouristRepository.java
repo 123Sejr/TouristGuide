@@ -39,7 +39,7 @@ public class TouristRepository {
                 new TouristAttractionRowMapper(),
                 id
         );
-
+    }
 
     //Henter listen af byer ved hjælp af query(), SQL og CityRowMapper
     public List<City> getCities() {
@@ -54,6 +54,8 @@ public class TouristRepository {
                 sql,
                 new TouristAttractionRowMapper()
         );
+    }
+
     // Gemmer en attraktion og dens tags i databasen. Kaldes fra service.
     @Transactional
     public void addAttraction(TouristAttraction attraction) {
@@ -80,21 +82,21 @@ public class TouristRepository {
 
         // Gem attractions tags
 
-        // Først skal vi have attraktionens tags (Skal måske bruge keyholder i stedet)
-        String sqlID = "SELECT attraction_id FROM tourist_attraction WHERE name = ?"
-                ;
-        // vi gemmer id'et i en int
-        int attractionID = jdbcTemplate.update(sqlID, attraction.getName());
+        // Først skal vi have attraktionens id (Skal måske bruge keyholder i stedet)
+        int attractionID = jdbcTemplate.update(
+                "SELECT attraction_id FROM tourist_attraction WHERE name = ?", attraction.getName()
+        );
 
         // vi vil også gerne have id for hvert tag, der skal gemmes
-        // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
+
         if (attraction.getTags() != null) {
             for (String tag : attraction.getTags()) {
-                String sqlTagID = "SELECT tag_id FROM tag WHERE tag_name = ?";
 
-                // id gammes i en int (igen, vi skal måske bruge keyholder i stedet)
-                int tagID = jdbcTemplate.update(sqlTagID, tag);
+                // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
+                // det gemms i en int (igen, måske skal keyholder bruges i stedet
+                int tagID = jdbcTemplate.update("SELECT tag_id FROM tag WHERE tag_name = ?", tag);
 
+                // de to id'er bruges til at indsætte data om tags
                 String sqlTags = """
                         INSERT INTO attraction_tags (attraction_id, tag_id)
                         VALUES (?, ?)
@@ -114,28 +116,18 @@ public class TouristRepository {
         }
     }
 
-    public void removeAttraction(String name) {
-        TouristAttraction attraction = findAttractionByName(name);
+//    public void removeAttraction(String name) {
+//        TouristAttraction attraction = findAttractionByName(name);
+//
+//        if (attraction != null) {
+//            touristAttractions.remove(attraction);
+//        } else {
+//            System.out.println("No attraction with that name.");
+//        }
+//    }
 
-        if (attraction != null) {
-            touristAttractions.remove(attraction);
-        } else {
-            System.out.println("No attraction with that name.");
-        }
+    /*
+    public void updateAttraction(int id, TouristAttraction updatedAttraction) {
     }
-
-    // Tager imod et navn og en attraktion (updatedAttraction) og
-    // sætter en eksisterende attraktion (attraction) til at være i lig med
-    // den attraktion (updatedAttraction), den har taget imod.
-    // Navnet bruges til at finde den attraktion der skal ændres
-    // og så bruges dets index i .set metoden
-    public void updateAttraction(String name, TouristAttraction updatedAttraction) {
-        TouristAttraction attraction = findAttractionByName(name);
-        touristAttractions.set(touristAttractions.indexOf(attraction), updatedAttraction);
-    }
+     */
 }
-/*
-public void updateAttraction(int id, TouristAttraction updatedAttraction) {
-
-}
-*/
