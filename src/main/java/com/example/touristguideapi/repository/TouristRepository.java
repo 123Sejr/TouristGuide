@@ -109,7 +109,7 @@ public class TouristRepository {
                     ps.setInt(1, attractionID);
                     ps.setInt(2, tagID);
                     return ps;
-                }, keyHolder);
+                });
             }
         }
     }
@@ -124,54 +124,24 @@ public class TouristRepository {
 //        }
 //    }
 
-        if (attraction != null) {
-            touristAttractions.remove(attraction);
-        } else {
-            System.out.println("No attraction with that name.");
-        }
-    }
+    public void updateAttraction(int id, TouristAttraction updatedAttraction) {
 
-    // Tager imod et navn og en attraktion (updatedAttraction) og
-    // sætter en eksisterende attraktion (attraction) til at være i lig med
-    // den attraktion (updatedAttraction), den har taget imod.
-    // Navnet bruges til at finde den attraktion der skal ændres
-    // og så bruges dets index i .set metoden
-    public void updateAttraction(String name, TouristAttraction updatedAttraction) {
-        TouristAttraction attraction = findAttractionByName(name);
-        touristAttractions.set(touristAttractions.indexOf(attraction), updatedAttraction);
+        String sqlUpdate = """
+                              UPDATE tourist_attraction
+                              SET name = ?,
+                              description = ?,
+                              city_id = ?
+                              WHERE attraction_id = ?
+                              """;
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sqlUpdate);
+
+            // sql parametrene identificeres med de gemte id'er
+            ps.setString(1, updatedAttraction.getName());
+            ps.setString(2,updatedAttraction.getDescription());
+            ps.setInt(3, updatedAttraction.getCityID());
+            ps.setInt(4, id);
+            return ps;
+        });
     }
 }
-
-/*
-string sql = "UPDATE tourist_attractions
-name = ?
-description = ?
-city_id = ?
-WHERE id = ?"
-
-        jdbcTemplate.update(connection -> {
-PreparedStatement ps = connection.prepareStatement(
-        sql, Statement.RETURN_GENERATED_KEYS
-);
-            ps.setString(1, updatedAttraction.getName());
-        ps.setString(2, updatedAttraction.getDescription());
-        ps.setInt(3, upddatedAttraction.getCityID());
-        return ps;
-        }, keyHolder);
-        }
-
-        if (updatedAttraction.getTags != null){
-        for (tag tag : tags)
-        }
-
-
-        jdbcTemplate.update(connection -> {
-PreparedStatement ps = connection.prepareStatement(
-        sql, Statement.RETURN_GENERATED_KEYS
-);
-            ps.setString(1, updatedAttraction.getName());
-        ps.setString(2, updatedAttraction.getDescription());
-        ps.setInt(3, upddatedAttraction.getCityID());
-        return ps;
-        }, keyHolder);
-        */
