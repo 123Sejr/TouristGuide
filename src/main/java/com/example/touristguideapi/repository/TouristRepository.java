@@ -93,8 +93,7 @@ public class TouristRepository {
                 // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
                 // det gemms i en int (igen, måske skal keyholder bruges i stedet
                 int tagID = jdbcTemplate.update("SELECT tag_id FROM tag WHERE tag_name = ?", tag);
-
-                // de to id'er bruges til at indsætte data om tags
+// de to id'er bruges til at indsætte data om tags
                 String sqlTags = """
                         INSERT INTO attraction_tags (attraction_id, tag_id)
                         VALUES (?, ?)
@@ -114,15 +113,17 @@ public class TouristRepository {
         }
     }
 
-//    public void removeAttraction(String name) {
-//        TouristAttraction attraction = findAttractionByName(name);
-//
-//        if (attraction != null) {
-//            touristAttractions.remove(attraction);
-//        } else {
-//            System.out.println("No attraction with that name.");
-//        }
-//    }
+    //Skal SQL'en bruge navnet eller id på attraktionen?
+    public void removeAttraction(int id) {
+        TouristAttraction attraction = findAttractionById(id);
+
+        if (attraction != null) {
+            jdbcTemplate.update("delete from tourist_attraction where attraction_id = ?", id);
+        } else {
+            System.out.println("No attraction with that id.");
+        }
+    }
+
 
     /*
     public void updateAttraction(int id, TouristAttraction updatedAttraction) {

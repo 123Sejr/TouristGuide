@@ -55,7 +55,7 @@ class TouristControllerTest {
     @Test
     void getName() throws Exception{
         TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
-        when(touristService.findAttractionByName(attraction.getName())).thenReturn(attraction);
+        when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/Tivoli"))
                 .andExpect(status().isOk())
@@ -103,7 +103,7 @@ class TouristControllerTest {
     @Test
     void shouldEditAttraction() throws Exception{
         TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
-        when(touristService.findAttractionByName(attraction.getName())).thenReturn(attraction);
+        when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/Tivoli/edit"))
                 .andExpect(status().isOk())
@@ -139,9 +139,9 @@ class TouristControllerTest {
     @Test
     void removeAttraction() throws Exception {
         TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
-        when(touristService.findAttractionByName(attraction.getName())).thenReturn(attraction);
+        when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
-        touristService.removeAttraction(attraction.getName());
+        touristService.removeAttraction(attraction.getId());
 
         mockMvc.perform(post("/attractions/Tivoli/delete"))
                 .andExpect(status().isOk())
@@ -156,7 +156,7 @@ class TouristControllerTest {
     @Test
     void shouldGetAttractionTags() throws Exception {
         TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
-        when(touristService.findAttractionByName(attraction.getName())).thenReturn(attraction);
+        when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/Tivoli/tags"))
                 .andExpect(status().isOk())
