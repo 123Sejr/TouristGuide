@@ -23,7 +23,17 @@ public class TouristRepository {
     }
 
     public TouristAttraction findAttractionById(int id) {
-        String sql = "SELECT * FROM tourist_attraction WHERE attraction_id = ?";
+        String sql = """
+                SELECT tourist_attraction.attraction_id, name, description, city_id,
+                GROUP_CONCAT(tag_name SEPARATOR ',') as "tag_names"
+                FROM attraction_tags
+                JOIN tourist_attraction
+                ON attraction_tags.attraction_id = tourist_attraction.attraction_id
+                JOIN tag
+                on tag.tag_id = attraction_tags.tag_id
+                WHERE tourist_attraction.attraction_id = ?
+                GROUP BY tourist_attraction.attraction_id;
+                """;
 
         return jdbcTemplate.queryForObject(
                 sql,
@@ -71,9 +81,9 @@ public class TouristRepository {
 
         // Gem attraktionen.
         String sqlAttraction = """
-            INSERT INTO tourist_attraction (name, description, city_id)
-            VALUES (?, ?, ?)
-            """;
+                INSERT INTO tourist_attraction (name, description, city_id)
+                VALUES (?, ?, ?)
+                """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -151,7 +161,7 @@ public class TouristRepository {
 
             // sql parametrene identificeres med de gemte id'er
             ps.setString(1, updatedAttraction.getName());
-            ps.setString(2,updatedAttraction.getDescription());
+            ps.setString(2, updatedAttraction.getDescription());
             ps.setInt(3, updatedAttraction.getCityID());
             ps.setInt(4, id);
             return ps;

@@ -13,15 +13,17 @@
         <hr>
         <p th:text="${attraction.description}"></p>
         <ul th:each="Tag : ${taglist}">
-            <li th:if="*{Tag.name() eq 'ARCHITECTURE'}">Arkitektur</li>
-            <li th:if="*{Tag.name() eq 'KID_FRIENDLY'}">Børnevenligt</li>
-            <li th:if="*{Tag.name() eq 'AMUSEMENT_PARK'}">Forlystelsespark</li>
-            <li th:if="*{Tag.name() eq 'HISTORY'}">Historie</li>
-            <li th:if="*{Tag.name() eq 'ART'}">Kunst</li>
-            <li th:if="*{Tag.name() eq 'MUSEUM'}">Museum</li>
-            <li th:if="*{Tag.name() eq 'NATURE'}">Natur</li>
-            <li th:if="*{Tag.name() eq 'CASTLE'}">Slot</li>
-            <li th:if="*{Tag.name() eq 'ZOO'}">Zoologisk Have</li>
+            <li th:text="${taglist}"></li>
+<!--            Intet tag evalueres til at være sandt pt-->
+            <li th:if="*{Tag == 'ARCHITECTURE'}">Arkitektur</li>
+            <li th:if="${Tag == 'KID_FRIENDLY'}">Børnevenligt</li>
+            <li th:if="*{Tag == 'AMUSEMENT_PARK'}">Forlystelsespark</li>
+            <li th:if="*{Tag == 'HISTORY'}">Historie</li>
+            <li th:if="*{Tag == 'ART'}">Kunst</li>
+            <li th:if="*{Tag == 'MUSEUM'}">Museum</li>
+            <li th:if="*{Tag == 'NATURE'}">Natur</li>
+            <li th:if="*{Tag == 'CASTLE'}">Slot</li>
+            <li th:if="*{Tag == 'ZOO'}">Zoologisk Have</li>
         </ul>
         <div class="button-right">
             <a th:href="@{/attractions}">
