@@ -39,10 +39,28 @@ public class TouristRepository {
 
 
     public List<TouristAttraction> getAllAttractions() {
-        String sql = "SELECT * FROM tourist_attraction";
+
+        // tourist_attraction med id, navn, beskrivelse og by joines med attraction_tags for at finde
+        // hvilke tags en attraktion har og joines så med tag for at få fat i navnene på de tags
+
+        // for at processere tags, bruges GROUP_CONCAT med en separator, for at få samlet hver attraktions tags
+        // i en enkelt, samlet string, som rowmapperen derefter kan omdanne til en liste ved hjælp af separatoren
+        String sqlgetter = """
+                SELECT tourist_attraction.attraction_id, name, description, city_id,
+                GROUP_CONCAT(tag_name SEPARATOR ',') as "tag_names"
+                FROM attraction_tags
+                JOIN tourist_attraction
+                ON attraction_tags.attraction_id = tourist_attraction.attraction_id
+                JOIN tag
+                on tag.tag_id = attraction_tags.tag_id
+                GROUP BY attraction_id
+                """;
+        // GROUP BY på id, samler alt data op givent id
+
+        // Mulighed: Man kunne tilføje city tabellen til join'en, så vi får city_name fremfor city_id
 
         return jdbcTemplate.query(
-                sql,
+                sqlgetter,
                 new TouristAttractionRowMapper()
         );
     }
@@ -81,7 +99,7 @@ public class TouristRepository {
         // vi vil også gerne have id for hvert tag, der skal gemmes
 
         if (attraction.getTags() != null) {
-            for (String tag : attraction.getTags()) {
+            for (Object tag : attraction.getTags()) {
 
                 // for hvert tag i tags arrayen tjekkes der hvilket id tagget har i databasen
                 // det gemms i en int (igen, måske skal keyholder bruges i stedet

@@ -1,13 +1,15 @@
 package com.example.touristguideapi.model;
 
+import java.util.ArrayList;
+
 public class TouristAttraction {
     private int id;
     private String name;
     private String description;
     private int city_id;
-    private String[] tags;
+    private ArrayList<String> tags;
 
-    public TouristAttraction(int id, String name, String description, int city_id, String[] tags) {
+    public TouristAttraction(int id, String name, String description, int city_id, ArrayList<String> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -15,7 +17,7 @@ public class TouristAttraction {
         this.tags = tags;
     }
 
-    public TouristAttraction(String name, String description, int city_id, String[] tags) {
+    public TouristAttraction(String name, String description, int city_id, ArrayList<String> tags) {
         this.name = name;
         this.description = description;
         this.city_id = city_id;
@@ -38,7 +40,7 @@ public class TouristAttraction {
         return city_id;
     }
 
-    public String[] getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
@@ -58,7 +60,7 @@ public class TouristAttraction {
         this.city_id = city_id;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 

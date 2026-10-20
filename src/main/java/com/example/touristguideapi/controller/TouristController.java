@@ -2,12 +2,11 @@ package com.example.touristguideapi.controller;
 
 import com.example.touristguideapi.model.*;
 import com.example.touristguideapi.service.TouristService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -72,7 +71,7 @@ public class TouristController {
         List<City> cityList = service.getCities();
         model.addAttribute("cityList", cityList);
 
-        String[] tagsList = attraction.getTags();
+        ArrayList tagsList = attraction.getTags();
         model.addAttribute("tagsList", tagsList);
         return "editAttraction";
     }
@@ -86,7 +85,7 @@ public class TouristController {
         model.addAttribute("attraction", attraction);
         service.updateAttraction(attraction.getId(), attraction);
 
-        String[] tagsList = attraction.getTags();
+        ArrayList<String> tagsList = attraction.getTags();
         model.addAttribute("tagsList", tagsList);
         return "updateAttraction";
     }
@@ -97,6 +96,7 @@ public class TouristController {
     // Returnerer til klienten med status 200 (OK) når attraktionen blev slettet.
     @PostMapping("/{id}/delete")
     public String removeAttraction(@PathVariable int id, Model model) {
+        // find name fra attraction_id og tilføj navn til modellen
         model.addAttribute("id", id);
         service.removeAttraction(id);
         return "deleted";

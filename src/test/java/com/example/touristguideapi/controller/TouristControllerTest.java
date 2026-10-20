@@ -13,7 +13,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -54,7 +56,8 @@ class TouristControllerTest {
     * og view navnet på html siden "attractionDetails".*/
     @Test
     void getName() throws Exception{
-        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
+        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København",
+                1, new ArrayList<>(List.of("ART", "MUSEUM")));
         when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/Tivoli"))
@@ -102,7 +105,8 @@ class TouristControllerTest {
      * 200 OK status og view navnet på html siden "editAttraction".*/
     @Test
     void shouldEditAttraction() throws Exception{
-        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
+        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København",
+                1, new ArrayList<>(List.of("ART", "MUSEUM")));
         when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/Tivoli/edit"))
@@ -138,7 +142,8 @@ class TouristControllerTest {
      * 200 OK status og view navnet på html siden "deleted".*/
     @Test
     void removeAttraction() throws Exception {
-        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
+        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København",
+                1, new ArrayList<>(List.of("ART", "MUSEUM")));
         when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         touristService.removeAttraction(attraction.getId());
@@ -155,7 +160,8 @@ class TouristControllerTest {
      * 200 OK status og view navnet på html siden "tags".*/
     @Test
     void shouldGetAttractionTags() throws Exception {
-        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København", 1, new String[0]);
+        TouristAttraction attraction = new TouristAttraction(1, "Tivoli", "Forlystelsespark i indre København",
+                1, new ArrayList<>(List.of("ART", "MUSEUM")));
         when(touristService.findAttractionById(attraction.getId())).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/Tivoli/tags"))
