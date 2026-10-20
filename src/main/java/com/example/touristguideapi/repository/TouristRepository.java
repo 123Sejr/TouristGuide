@@ -13,13 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-/*
-Klassen skal desuden indeholde CRUD metoder, der arbejder på ovenstående ArrayList.
-
-Vent evt. med den endelige metodesignatur for CRUD metoderne til I
-har set beskrivelsen af Controller klassens endpoints nedenfor.
-*/
-
 @Repository
 public class TouristRepository {
 

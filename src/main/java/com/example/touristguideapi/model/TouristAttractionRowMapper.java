@@ -9,7 +9,7 @@ public class TouristAttractionRowMapper implements RowMapper<TouristAttraction> 
     @Override
     public TouristAttraction mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new TouristAttraction(
-                rs.getInt("id"),
+                rs.getInt("attraction_id"),
                 rs.getString("name"),
                 rs.getString("description"),
                 rs.getInt ("city_id"),
